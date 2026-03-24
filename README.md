@@ -23,6 +23,13 @@ ClaudeClaw is a blueprint - a single reference document you give to any Claude C
 
 This is NOT a replacement for your CLAUDE.md. It's a reference your agent reads to gain expertise in these topics.
 
+## Before You Start
+
+Make sure you have:
+- A **Claude Pro or Max subscription** (claude.ai) - not an API key
+- **Claude Code** installed and logged in
+- **[Bun](https://bun.sh)** runtime installed (the channel plugins need it)
+
 ## Quick Start
 
 Paste this into your Claude Code:
@@ -36,6 +43,8 @@ Once confirmed, read the README and follow the setup instructions. Recommend how
 ```
 
 Your agent will read this document, understand the architecture, and guide you through setting it up for your specific needs.
+
+**Just want a single agent on Telegram?** Follow sections 1-3 and skip to section 8. You don't need multi-agent to get value from this.
 
 ---
 
