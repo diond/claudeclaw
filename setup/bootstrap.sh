@@ -11,7 +11,7 @@ set -euo pipefail
 
 echo "=== 1. System updates ==="
 sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install -y tmux git curl jq htop
+sudo apt-get install -y tmux git curl jq htop unzip
 
 echo "=== 2. Install Bun ==="
 if ! command -v bun &>/dev/null; then
@@ -33,7 +33,7 @@ echo "=== 4. Install Claude Code ==="
 # NOTE: Verify current package name at https://docs.claude.com before running.
 # The package name may have changed since this script was written.
 if ! command -v claude &>/dev/null; then
-  npm install -g @anthropic-ai/claude-code
+  sudo npm install -g @anthropic-ai/claude-code
 else
   echo "Claude Code already installed: $(claude --version 2>/dev/null || echo 'installed')"
 fi

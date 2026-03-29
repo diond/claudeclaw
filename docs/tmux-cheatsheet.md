@@ -4,29 +4,27 @@ Quick reference for interacting with ClaudeClaw agent sessions.
 
 ## Basics
 
+Each agent runs on its own tmux socket (`-L agent-<name>`). You must specify the socket to interact with a specific agent.
+
 | Command | What it does |
 |---------|-------------|
-| `tmux ls` | List all running sessions |
-| `tmux attach -t agent-primary` | Attach to primary agent's session |
-| `tmux attach -t agent-alpha` | Attach to alpha agent's session |
+| `tmux -L agent-primary ls` | List primary agent's session |
+| `tmux -L agent-primary attach -t agent-primary` | Attach to primary agent |
+| `tmux -L agent-alpha attach -t agent-alpha` | Attach to alpha agent |
 | `Ctrl+B, then D` | Detach from session (leave it running) |
-| `tmux kill-session -t agent-primary` | Kill a specific session |
+| `for a in primary alpha beta gamma; do tmux -L "agent-$a" ls 2>/dev/null; done` | List all agent sessions |
 
 ## Viewing Agent Sessions via SSH
 
 ```bash
-# List sessions
-ssh -i KEY ubuntu@IP 'tmux ls'
+# List all agent sessions
+ssh -i KEY ubuntu@IP 'for a in primary alpha beta gamma; do tmux -L "agent-$a" ls 2>/dev/null; done'
 
 # Attach (interactive — needs -t flag)
-ssh -i KEY -t ubuntu@IP 'tmux attach -t agent-primary'
+ssh -i KEY -t ubuntu@IP 'tmux -L agent-primary attach -t agent-primary'
 
-# View logs without attaching
-ssh -i KEY ubuntu@IP 'tail -20 ~/workspace/session.log'
-ssh -i KEY ubuntu@IP 'tail -20 ~/workspace/agents/alpha/session.log'
-
-# Follow logs in real-time
-ssh -i KEY ubuntu@IP 'tail -f ~/workspace/agents/alpha/session.log'
+# Attach to a sub-agent
+ssh -i KEY -t ubuntu@IP 'tmux -L agent-alpha attach -t agent-alpha'
 ```
 
 ## Scrollback
@@ -70,3 +68,4 @@ journalctl --user -u claudeclaw@primary --no-pager -n 50
 - **Never kill a tmux session manually** if systemd is managing it — use `systemctl --user stop` instead, so systemd knows the agent is down.
 - **Detach, don't exit** — pressing `Ctrl+C` or typing `exit` inside the tmux session kills the Claude Code process. Use `Ctrl+B, D` to detach safely.
 - **Session naming** — all agent sessions follow the pattern `agent-<name>` (e.g., `agent-primary`, `agent-alpha`).
+- **Per-agent sockets** — each agent uses its own tmux socket (`-L agent-<name>`) so systemd can track each server process independently. Always include `-L agent-<name>` in tmux commands.
