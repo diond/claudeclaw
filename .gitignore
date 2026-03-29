@@ -1,8 +1,12 @@
 # Secrets - never commit these
 .env
 .env.*
+*.env
 *.pem
 *.key
+
+# Centralized agent secrets
+.env.agents
 
 # Claude Code local settings (contains bot tokens)
 .claude/settings.local.json
@@ -14,8 +18,16 @@
 .claude/discord/inbox/
 .claude/discord/approved/
 
+# Agent-specific secrets
+agents/*/.claude/telegram/.env
+agents/*/.claude/settings.local.json
+
 # MCP config (may contain server entries)
 .mcp.json
+
+# Session logs
+session.log
+agents/*/session.log
 
 # OS files
 .DS_Store

@@ -1,0 +1,34 @@
+[Unit]
+Description=ClaudeClaw Agent: %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=forking
+WorkingDirectory=%h/workspace
+ExecStart=/bin/bash -lc '\
+  AGENT=%i; \
+  if [ "$AGENT" = "primary" ]; then \
+    AGENT_DIR="%h/workspace"; \
+    LOG="%h/workspace/session.log"; \
+    EXTRA_FLAGS=""; \
+  else \
+    AGENT_DIR="%h/workspace/agents/$AGENT"; \
+    LOG="%h/workspace/agents/$AGENT/session.log"; \
+    EXTRA_FLAGS="--add-dir %h/workspace"; \
+  fi; \
+  tmux new-session -d -s "agent-$AGENT" \
+    "cd $AGENT_DIR && claude $EXTRA_FLAGS --channels plugin:telegram@claude-plugins-official 2>&1 | tee $LOG"'
+ExecStop=/usr/bin/tmux kill-session -t agent-%i
+Restart=on-failure
+RestartSec=30
+StartLimitBurst=5
+StartLimitIntervalSec=300
+
+# Environment
+EnvironmentFile=-%h/workspace/.env.agents
+Environment=HOME=%h
+Environment=PATH=%h/.bun/bin:%h/.npm-global/bin:/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(rm -r /*)",
+      "Bash(rm -r ~*)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean -fd *)",
+      "Bash(git clean -f *)",
+      "Bash(git checkout -- .)",
+      "Bash(sudo *)",
+      "Bash(chmod -R 777 *)",
+      "Bash(mkfs *)",
+      "Bash(dd *)",
+      "Bash(shutdown *)",
+      "Bash(reboot *)",
+      "Bash(systemctl *)",
+      "Bash(kill -9 *)",
+      "Bash(killall *)",
+      "Bash(pkill *)",
+      "Bash(format *)",
+      "Bash(fdisk *)",
+      "Bash(parted *)",
+      "Bash(apt remove *)",
+      "Bash(apt purge *)",
+      "Bash(apt-get remove *)",
+      "Bash(apt-get purge *)"
+    ]
+  }
+}

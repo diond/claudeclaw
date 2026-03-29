@@ -1,11 +1,25 @@
 {
-  "description": "Cron registry - read on session restart to recreate all scheduled jobs. All times are in your local timezone.",
+  "description": "Cron registry - read on session restart to recreate all scheduled jobs. All times are in your local timezone (set during bootstrap).",
   "crons": [
     {
       "id": "keepalive",
       "name": "Keep-alive ping",
       "cron": "*/20 * * * *",
       "prompt": "Check channel connection is active. Process pending messages if any.",
+      "enabled": true
+    },
+    {
+      "id": "context-save",
+      "name": "Periodic context save",
+      "cron": "0 */2 * * *",
+      "prompt": "Save current context to your conversation log file. Include: what you're working on, what you've completed since last save, any pending decisions, and files currently being edited.",
+      "enabled": true
+    },
+    {
+      "id": "qc-summary",
+      "name": "Daily QC summary",
+      "cron": "0 18 * * *",
+      "prompt": "Send a Telegram message summarizing today's work: tasks completed, tasks with QC issues (review: commits), and current task status. Include commit count and any blockers.",
       "enabled": true
     },
     {
